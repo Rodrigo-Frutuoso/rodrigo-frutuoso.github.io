@@ -13,6 +13,18 @@
 
   <footer class="bg-dark text-white text-center py-3">
     <p>&copy; <span id="currentYear"></span> Rodrigo Frutuoso</p>
-    </footer>
+  </footer>
+
+  <script>
+    // Aplica o dark mode se estiver salvo no localStorage
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark-mode');
+    }
+    // Atualiza o ano no footer
+    document.addEventListener('DOMContentLoaded', function() {
+      var yearSpan = document.getElementById('currentYear');
+      if (yearSpan) yearSpan.textContent = new Date().getFullYear();
+    });
+  </script>
 </body>
 </html>

@@ -1,9 +1,7 @@
 function loadHeader() {
-    return fetch('components/header.html') // Caminho atualizado
+    return fetch('components/header.html')
         .then(response => {
-            if (!response.ok) {
-                throw new Error(`Error loading header: ${response.status}`);
-            }
+            if (!response.ok) throw new Error(`Error loading header: ${response.status}`);
             return response.text();
         })
         .then(data => {
@@ -12,6 +10,7 @@ function loadHeader() {
                 headerPlaceholder.innerHTML = data;
                 headerPlaceholder.style.display = 'block';
                 setActiveNavLink();
+                initThemeToggle();
             }
         })
         .catch(error => console.error('Error loading header:', error));
@@ -20,20 +19,15 @@ function loadHeader() {
 function loadFooter() {
     fetch('components/footer.html')
         .then(response => {
-            if (!response.ok) {
-                throw new Error(`Error loading footer: ${response.status}`);
-            }
+            if (!response.ok) throw new Error(`Error loading footer: ${response.status}`);
             return response.text();
         })
         .then(data => {
             const footerPlaceholder = document.getElementById('footer-placeholder');
             if (footerPlaceholder) {
                 footerPlaceholder.innerHTML = data;
-
                 const yearSpan = document.getElementById('currentYear');
-                if (yearSpan) {
-                    yearSpan.textContent = new Date().getFullYear();
-                }
+                if (yearSpan) yearSpan.textContent = new Date().getFullYear();
             }
         })
         .catch(error => console.error('Error loading footer:', error));
@@ -42,7 +36,6 @@ function loadFooter() {
 function loadFeaturedProject(username) {
     const container = document.getElementById('featured-project');
     if (!container) return;
-
     fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=1`)
         .then(response => response.json())
         .then(repos => {
@@ -68,7 +61,6 @@ function loadFeaturedProject(username) {
 function loadAllRepos(username) {
     const container = document.getElementById('repos-container');
     if (!container) return;
-
     fetch(`https://api.github.com/users/${username}/repos`)
         .then(response => response.json())
         .then(repos => {
@@ -102,28 +94,28 @@ function loadAllRepos(username) {
 function initThemeToggle() {
     const toggle = document.getElementById('theme-toggle');
     if (!toggle) return;
-
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        document.body.classList.toggle('dark-mode', savedTheme === 'dark');
+        toggle.checked = savedTheme === 'dark';
+    }
     toggle.addEventListener('change', function () {
-        const icons = document.querySelectorAll('.contact-icon');
-        icons.forEach(icon => {
-            icon.classList.toggle('dark');
-        });
+        const isDarkMode = toggle.checked;
+        document.body.classList.toggle('dark-mode', isDarkMode);
+        localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
     });
 }
 
 function setActiveNavLink() {
     const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
     let currentPath = window.location.pathname;
-
     const repoName = "Rodrigo-Frutuoso";
     if (currentPath.startsWith(`/${repoName}`)) {
         currentPath = currentPath.replace(`/${repoName}`, '');
     }
-
     currentPath = currentPath.endsWith('/') || currentPath === ''
         ? 'index.html'
         : currentPath.split('/').pop();
-
     navLinks.forEach(link => {
         if (link.getAttribute('href') === currentPath) {
             link.parentElement.classList.add('active');
@@ -133,13 +125,10 @@ function setActiveNavLink() {
     });
 }
 
-
 document.addEventListener('DOMContentLoaded', function () {
     const githubUsername = 'Rodrigo-Frutuoso';
-
     loadHeader();
     loadFooter();
     loadFeaturedProject(githubUsername);
     loadAllRepos(githubUsername);
-    initThemeToggle();
 });

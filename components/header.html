@@ -6,12 +6,21 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav mx-auto">
                 <li class="nav-item active"><a class="nav-link" href="index.html">Home</a></li>
                 <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
                 <li class="nav-item"><a class="nav-link" href="projects.html">Projects</a></li>
                 <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
             </ul>
+            <div class="theme-toggle d-flex align-items-center">
+                <img src="images/sun.png" alt="Light Mode" width="24" height="24">
+                <label class="switch mx-2">
+                    <input type="checkbox" id="theme-toggle">
+                    <span class="slider round"></span>
+                </label>
+                <img src="images/moon.png" alt="Dark Mode" width="24" height="24">
+            </div>
         </div>
     </div>
 </nav>
+<script src="scripts/javascript.js"></script>
