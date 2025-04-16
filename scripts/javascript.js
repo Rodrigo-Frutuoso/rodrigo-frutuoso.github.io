@@ -1,5 +1,5 @@
 function loadHeader() {
-    return fetch('../components/header.html')
+    return fetch('components/header.html') // Caminho atualizado
         .then(response => {
             if (!response.ok) {
                 throw new Error(`Error loading header: ${response.status}`);
@@ -18,7 +18,7 @@ function loadHeader() {
 }
 
 function loadFooter() {
-    fetch('../components/footer.html')
+    fetch('components/footer.html') // Caminho atualizado
         .then(response => {
             if (!response.ok) {
                 throw new Error(`Error loading footer: ${response.status}`);
