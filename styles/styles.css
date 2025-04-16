@@ -55,8 +55,8 @@ footer {
 }
 
 .navbar-nav .nav-item.active .nav-link {
-    color: #fff;
     font-weight: bold;
+    color: white !important;
 }
 
 #navbarNav {
