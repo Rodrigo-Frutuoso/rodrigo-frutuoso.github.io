@@ -113,18 +113,26 @@ function initThemeToggle() {
 
 function setActiveNavLink() {
     const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
-    const currentPath = window.location.pathname;
+    let currentPath = window.location.pathname;
+
+    const repoName = "Rodrigo-Frutuoso";
+    if (currentPath.startsWith(`/${repoName}`)) {
+        currentPath = currentPath.replace(`/${repoName}`, '');
+    }
+
+    currentPath = currentPath.endsWith('/') || currentPath === ''
+        ? 'index.html'
+        : currentPath.split('/').pop();
 
     navLinks.forEach(link => {
-        const linkPath = new URL(link.getAttribute('href'), window.location.origin).pathname;
-
-        if (linkPath === currentPath) {
+        if (link.getAttribute('href') === currentPath) {
             link.parentElement.classList.add('active');
         } else {
             link.parentElement.classList.remove('active');
         }
     });
 }
+
 
 document.addEventListener('DOMContentLoaded', function () {
     const githubUsername = 'Rodrigo-Frutuoso';
