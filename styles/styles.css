@@ -48,6 +48,89 @@ footer {
     transform: translateY(-5px);
 }
 
+.timeline {
+    position: relative;
+    max-width: 900px;
+    margin: 0 auto;
+    padding-left: 2.4rem;
+}
+
+.timeline::before {
+    content: "";
+    position: absolute;
+    left: 0.75rem;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    border-radius: 2px;
+    background: linear-gradient(180deg, #007bff 0%, #9ec5ff 100%);
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 1.3rem;
+}
+
+.timeline-item:last-child {
+    margin-bottom: 0;
+}
+
+.timeline-item::before {
+    content: "";
+    position: absolute;
+    left: -1.78rem;
+    top: 1.2rem;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background-color: #007bff;
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 2px #9ec5ff;
+}
+
+.timeline-date {
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 700;
+    color: #5b6570;
+}
+
+.timeline-card {
+    margin: 0;
+}
+
+.timeline-type {
+    display: inline-block;
+    margin-bottom: 0.6rem;
+    padding: 0.15rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #0056b3;
+    background-color: #e7f1ff;
+}
+
+@media (max-width: 575.98px) {
+    .timeline {
+        padding-left: 2rem;
+    }
+
+    .timeline::before {
+        left: 0.58rem;
+    }
+
+    .timeline-item::before {
+        left: -1.55rem;
+    }
+
+    .timeline .card-body {
+        padding: 1rem;
+    }
+}
+
 .navbar-brand {
     font-weight: bold;
     font-size: 1.5rem;
@@ -250,5 +333,24 @@ body.dark-mode h4,
 body.dark-mode h5,
 body.dark-mode h6 {
     color: #f1f1f1;
+}
+
+body.dark-mode .timeline::before {
+    background: linear-gradient(180deg, #4da3ff 0%, #2f5f99 100%);
+}
+
+body.dark-mode .timeline-item::before {
+    background-color: #4da3ff;
+    border-color: #23272b;
+    box-shadow: 0 0 0 2px #2f5f99;
+}
+
+body.dark-mode .timeline-date {
+    color: #aebdcb;
+}
+
+body.dark-mode .timeline-type {
+    background-color: #1a3656;
+    color: #9ed0ff;
 }
 
