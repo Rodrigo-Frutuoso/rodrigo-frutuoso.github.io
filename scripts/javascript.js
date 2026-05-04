@@ -1,134 +1,162 @@
-function loadHeader() {
-    return fetch('components/header.html')
-        .then(response => {
-            if (!response.ok) throw new Error(`Error loading header: ${response.status}`);
-            return response.text();
-        })
-        .then(data => {
-            const headerPlaceholder = document.getElementById('header-placeholder');
-            if (headerPlaceholder) {
-                headerPlaceholder.innerHTML = data;
-                headerPlaceholder.style.display = 'block';
-                setActiveNavLink();
-                initThemeToggle();
-            }
-        })
-        .catch(error => console.error('Error loading header:', error));
-}
+/* Multi-Page JavaScript Functionality */
 
-function loadFooter() {
-    fetch('components/footer.html')
-        .then(response => {
-            if (!response.ok) throw new Error(`Error loading footer: ${response.status}`);
-            return response.text();
-        })
-        .then(data => {
-            const footerPlaceholder = document.getElementById('footer-placeholder');
-            if (footerPlaceholder) {
-                footerPlaceholder.innerHTML = data;
-                const yearSpan = document.getElementById('currentYear');
-                if (yearSpan) yearSpan.textContent = new Date().getFullYear();
-            }
-        })
-        .catch(error => console.error('Error loading footer:', error));
-}
-
-function loadFeaturedProject(username) {
-    const container = document.getElementById('featured-project');
-    if (!container) return;
-    fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=1`)
-        .then(response => response.json())
-        .then(repos => {
-            if (repos.length > 0) {
-                const repo = repos[0];
-                container.innerHTML = `
-                    <div class="card-body">
-                        <h3 class="card-title">${repo.name}</h3>
-                        <p class="card-text">${repo.description || 'No description available.'}</p>
-                        <a href="${repo.html_url}" class="btn btn-primary" target="_blank" rel="noopener noreferrer">View on GitHub</a>
-                    </div>
-                `;
-            } else {
-                container.innerHTML = '<p class="text-muted">No repositories found.</p>';
-            }
-        })
-        .catch(error => {
-            console.error('Error loading featured project:', error);
-            container.innerHTML = '<p class="text-danger">Error loading featured project.</p>';
-        });
-}
-
-function loadAllRepos(username) {
-    const container = document.getElementById('repos-container');
-    if (!container) return;
-    fetch(`https://api.github.com/users/${username}/repos`)
-        .then(response => response.json())
-        .then(repos => {
-            if (Array.isArray(repos) && repos.length > 0) {
-                repos
-                    .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at))
-                    .forEach(repo => {
-                        const card = document.createElement('div');
-                        card.className = 'col-md-4 mb-4';
-                        card.innerHTML = `
-                            <div class="card h-100 shadow-sm">
-                                <div class="card-body d-flex flex-column">
-                                    <h5 class="card-title">${repo.name}</h5>
-                                    <p class="card-text">${repo.description || 'No description available.'}</p>
-                                    <a href="${repo.html_url}" class="btn btn-primary mt-auto" target="_blank" rel="noopener noreferrer">View on GitHub</a>
-                                </div>
-                            </div>
-                        `;
-                        container.appendChild(card);
-                    });
-            } else {
-                container.innerHTML = '<p class="text-muted">No repositories found.</p>';
-            }
-        })
-        .catch(error => {
-            console.error('Error loading repositories:', error);
-            container.innerHTML = '<p class="text-danger">Error loading repositories.</p>';
-        });
-}
-
-function initThemeToggle() {
-    const toggle = document.getElementById('theme-toggle');
-    if (!toggle) return;
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-        document.body.classList.toggle('dark-mode', savedTheme === 'dark');
-        toggle.checked = savedTheme === 'dark';
+// Component Loader
+async function loadComponent(id, path, callback) {
+    try {
+        const response = await fetch(path);
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        const text = await response.text();
+        const placeholder = document.getElementById(id);
+        if (placeholder) {
+            placeholder.innerHTML = text;
+            if (callback) callback();
+        }
+    } catch (error) {
+        console.error(`Error loading component from ${path}:`, error);
     }
-    toggle.addEventListener('change', function () {
-        const isDarkMode = toggle.checked;
-        document.body.classList.toggle('dark-mode', isDarkMode);
-        localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
-    });
 }
 
-function setActiveNavLink() {
-    const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
-    let currentPath = window.location.pathname;
-    const repoName = "Rodrigo-Frutuoso";
-    if (currentPath.startsWith(`/${repoName}`)) {
-        currentPath = currentPath.replace(`/${repoName}`, '');
-    }
-    currentPath = currentPath.endsWith('/') || currentPath === ''
-        ? 'index.html'
-        : currentPath.split('/').pop();
+// Active Nav Link Highlight
+function highlightActiveLink() {
+    const navLinks = document.querySelectorAll('.nav-links a');
+    const path = window.location.pathname;
+    
     navLinks.forEach(link => {
-        if (link.getAttribute('href') === currentPath) {
-            link.parentElement.classList.add('active');
+        const href = link.getAttribute('href');
+        if (!href) return;
+        
+        // Normalize paths for comparison
+        const normalizedPath = path.endsWith('/') ? path : path + '/';
+        const normalizedHref = href.endsWith('/') ? href : href + '/';
+        
+        if (normalizedPath.endsWith(normalizedHref)) {
+            link.classList.add('active');
         } else {
-            link.parentElement.classList.remove('active');
+            link.classList.remove('active');
         }
     });
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-    const githubUsername = 'Rodrigo-Frutuoso';
-    loadHeader();
-    loadFooter();
-    loadFeaturedProject(githubUsername);
-    loadAllRepos(githubUsername);
+// Reveal Animation on Scroll
+function initReveal() {
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    reveals.forEach(el => observer.observe(el));
+}
+
+// Horizontal Timeline Scroll
+function scrollTimeline(amount) {
+    const timeline = document.getElementById('timeline');
+    if (timeline) {
+        timeline.scrollBy({
+            left: amount,
+            behavior: 'smooth'
+        });
+    }
+}
+
+// Custom Toast Notification
+function showToast(message, type = 'success') {
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.innerHTML = `
+        <div class="toast-icon">
+            <i data-lucide="${type === 'success' ? 'check-circle' : 'alert-circle'}"></i>
+        </div>
+        <span>${message}</span>
+    `;
+    document.body.appendChild(toast);
+    
+    // Initialize Lucide icon
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+
+    // Show toast
+    setTimeout(() => toast.classList.add('show'), 100);
+
+    // Hide and remove toast
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 500);
+    }, 4000);
+}
+
+// Contact Form Handling
+function initContactForm() {
+    const form = document.getElementById('contact-form');
+    if (!form) return;
+
+    form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        const btn = form.querySelector('button');
+        const originalText = btn.textContent;
+        
+        btn.textContent = 'Sending...';
+        btn.disabled = true;
+
+        const data = new FormData(form);
+
+        try {
+            const response = await fetch("https://formspree.io/f/xwpljvnv", {
+                method: "POST",
+                body: data,
+                headers: { 'Accept': 'application/json' }
+            });
+            if (response.ok) {
+                showToast("Message sent successfully!");
+                form.reset();
+            } else {
+                throw new Error();
+            }
+        } catch (error) {
+            showToast("Problem sending message.", "error");
+        } finally {
+            btn.textContent = originalText;
+            btn.disabled = false;
+        }
+    });
+}
+
+// Initialize
+document.addEventListener('DOMContentLoaded', () => {
+    const isSubpage = window.location.pathname.includes('/about/') || 
+                      window.location.pathname.includes('/projects/') || 
+                      window.location.pathname.includes('/contact/');
+    
+    const prefix = isSubpage ? '../' : '';
+
+    loadComponent('header-placeholder', prefix + 'components/header.html', () => {
+        highlightActiveLink();
+        
+        // Fix links and image paths in header
+        const headerLinks = document.querySelectorAll('.nav-links a, .logo a');
+        headerLinks.forEach(link => {
+            const href = link.getAttribute('href');
+            if (href === 'home') {
+                link.setAttribute('href', prefix || './');
+            } else {
+                link.setAttribute('href', prefix + href + '/');
+            }
+        });
+
+        const logoImg = document.querySelector('.logo img');
+        if (logoImg) {
+            logoImg.src = prefix + 'images/logo.svg';
+        }
+
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+    });
+
+    loadComponent('footer-placeholder', prefix + 'components/footer.html', () => {
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+    });
+
+    initReveal();
+    initContactForm();
 });

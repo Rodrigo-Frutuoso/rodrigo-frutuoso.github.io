@@ -1,0 +1,48 @@
+<!-- contact.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | Rodrigo Frutuoso</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="icon" href="../images/logo.svg" type="image/svg+xml">
+    <link href="../styles/styles.css" rel="stylesheet">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+
+    <main>
+        <section id="contact" class="container">
+            <h2 class="section-title reveal">Let's Connect</h2>
+            
+            <div class="reveal" style="text-align: center; margin-bottom: 2rem;">
+                <div style="display: flex; justify-content: center; gap: 4rem;">
+                    <a href="https://github.com/Rodrigo-Frutuoso" target="_blank" aria-label="GitHub">
+                        <img src="../images/github.png" alt="GitHub" class="contact-social-img github-icon">
+                    </a>
+                    <a href="https://www.linkedin.com/in/rodrigo-frutuoso/" target="_blank" aria-label="LinkedIn">
+                        <img src="../images/linkedin.png" alt="LinkedIn" class="contact-social-img">
+                    </a>
+                </div>
+            </div>
+
+            <form id="contact-form" class="contact-form reveal">
+                <div class="form-group">
+                    <input type="text" name="name" placeholder="Full Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" name="email" placeholder="Email Address" required>
+                </div>
+                <div class="form-group">
+                    <textarea name="message" placeholder="Your Message..." rows="5" required></textarea>
+                </div>
+                <button type="submit" class="btn-primary" style="width: 100%;">Send Message</button>
+            </form>
+        </section>
+    </main>
+
+    <div id="footer-placeholder"></div>
+    <script src="../scripts/javascript.js"></script>
+</body>
+</html>
