@@ -426,6 +426,19 @@ nav {
     gap: 2rem;
 }
 
+.projects-header-wrapper {
+    position: relative;
+    margin-bottom: 2.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.projects-header-wrapper .btn-github {
+    position: absolute;
+    right: 0;
+}
+
 .skills-grid {
     display: flex;
     flex-direction: column;
@@ -531,7 +544,7 @@ nav {
 
 .timeline-horizontal {
     display: flex;
-    overflow-x: hidden;
+    overflow-x: auto;
     gap: 2rem;
     padding: 1.5rem 0.5rem;
     scroll-snap-type: x mandatory;
@@ -686,7 +699,52 @@ footer {
     border-color: var(--accent-primary);
 }
 
+/* --- Mobile Navigation --- */
+.mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--text-main);
+    cursor: pointer;
+    z-index: 1001; /* Ensure it's above the menu */
+    padding: 0.5rem;
+}
+
 @media (max-width: 768px) {
+    .mobile-menu-btn {
+        display: block;
+    }
+
+    .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        max-width: 300px;
+        height: 100vh;
+        background: rgba(3, 7, 18, 0.98);
+        backdrop-filter: blur(12px);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 1000;
+        border-left: 1px solid var(--glass-border);
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .nav-links.active {
+        right: 0;
+    }
+
+    .nav-links li {
+        margin: 1.5rem 0;
+    }
+    
+    .nav-links a {
+        font-size: 1.2rem;
+    }
+
     .skill-category {
         flex-direction: column;
         align-items: flex-start;
@@ -699,5 +757,62 @@ footer {
     
     .languages-container {
         grid-template-columns: 1fr;
+    }
+
+    .projects-grid {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        gap: 1.5rem;
+    }
+
+    .project-card, .timeline-card {
+        padding: 1.5rem;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .project-card {
+        max-width: 100%;
+    }
+
+    .timeline-item {
+        flex: 1 1 auto;
+        width: 100%;
+        max-width: 100%;
+        scroll-snap-align: none;
+    }
+    
+    .project-card, .timeline-card {
+        touch-action: pan-y;
+    }
+
+    .project-card:hover, .timeline-card:hover {
+        transform: none !important;
+    }
+    
+    .timeline-card {
+        height: auto;
+    }
+    
+    .timeline-horizontal {
+        flex-direction: column;
+        width: 100%;
+        padding-bottom: 1rem;
+        overflow: visible;
+        gap: 1.5rem;
+        scroll-snap-type: none;
+    }
+
+    .projects-header-wrapper {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .projects-header-wrapper .btn-github {
+        position: static;
+    }
+
+    .timeline-nav {
+        display: none;
     }
 }

@@ -37,6 +37,40 @@ function highlightActiveLink() {
     });
 }
 
+// Mobile Menu Toggle
+function initMobileMenu() {
+    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+    const navLinksContainer = document.querySelector('.nav-links');
+    
+    if (mobileMenuBtn && navLinksContainer) {
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinksContainer.classList.toggle('active');
+            
+            // Change icon
+            const icon = mobileMenuBtn.querySelector('i');
+            if (navLinksContainer.classList.contains('active')) {
+                icon.setAttribute('data-lucide', 'x');
+            } else {
+                icon.setAttribute('data-lucide', 'menu');
+            }
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        });
+
+        // Close menu when clicking a link
+        const navLinks = navLinksContainer.querySelectorAll('a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                navLinksContainer.classList.remove('active');
+                const icon = mobileMenuBtn.querySelector('i');
+                if (icon) {
+                    icon.setAttribute('data-lucide', 'menu');
+                    if (typeof lucide !== 'undefined') lucide.createIcons();
+                }
+            });
+        });
+    }
+}
+
 // Reveal Animation on Scroll
 function initReveal() {
     const reveals = document.querySelectorAll('.reveal');
@@ -133,6 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     loadComponent('header-placeholder', prefix + 'components/header.html', () => {
         highlightActiveLink();
+        initMobileMenu();
         
         // Fix links and image paths in header
         const headerLinks = document.querySelectorAll('.nav-links a, .logo a');
