@@ -1,19 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-
   <url>
-    <loc>https://rodrigo-frutuoso.github.io/homepage/</loc>
+    <loc>https://rodrigo-frutuoso.github.io/</loc>
   </url>
   <url>
-    <loc>https://rodrigo-frutuoso.github.io/homepage/about.html</loc>
+    <loc>https://rodrigo-frutuoso.github.io/about/</loc>
   </url>
   <url>
-    <loc>https://rodrigo-frutuoso.github.io/homepage/projects.html</loc>
+    <loc>https://rodrigo-frutuoso.github.io/projects/</loc>
   </url>
   <url>
-    <loc>https://rodrigo-frutuoso.github.io/homepage/contact.html</loc>
-  </url>
-  <url>
-    <loc>https://rodrigo-frutuoso.github.io/homepage/thank-you.html</loc>
+    <loc>https://rodrigo-frutuoso.github.io/contact/</loc>
   </url>
 </urlset>

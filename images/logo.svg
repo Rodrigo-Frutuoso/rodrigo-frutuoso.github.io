@@ -1,0 +1,21 @@
+<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <!-- Intense glow effect -->
+        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+        </filter>
+        <filter id="outer-glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="6" result="blur2"/>
+            <feFlood flood-color="#3b82f6" flood-opacity="0.5" result="color"/>
+            <feComposite in="color" in2="blur2" operator="in" result="glow"/>
+            <feMerge>
+                <feMergeNode in="glow"/>
+                <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+        </filter>
+    </defs>
+    <text x="50%" y="55%" text-anchor="middle" dominant-baseline="middle" 
+          font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="75" 
+          fill="#3b82f6" filter="url(#outer-glow)" style="letter-spacing: -5px;">RF</text>
+</svg>
