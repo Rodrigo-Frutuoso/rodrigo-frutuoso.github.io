@@ -1,3 +1,5 @@
-Sitemap: https://rodrigo-frutuoso.github.io/sitemap.xml
 User-agent: *
+Allow: /
 Disallow:
+
+Sitemap: https://rodrigo-frutuoso.github.io/sitemap.xml
